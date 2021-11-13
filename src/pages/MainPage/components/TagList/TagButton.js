@@ -6,7 +6,6 @@ import { withStyles } from '@material-ui/styles';
 const useStyles = makeStyles((theme) => {
   return {
     root: {
-      margin: theme.spacing(1),
       borderColor: theme.palette.primary.main,
       borderWidth: 2,
       borderStyle: 'solid',

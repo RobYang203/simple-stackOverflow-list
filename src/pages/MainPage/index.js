@@ -12,11 +12,12 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 import SearchBar from './components/SearchBar';
 import TagButton from './components/TagList/TagButton';
+import TagList from './components/TagList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
-    padding: theme.spacing(1 , 0)
+    padding: theme.spacing(1, 0),
   },
   inputRoot: {
     borderRadius: 20,
@@ -34,10 +35,9 @@ const useStyles = makeStyles((theme) => ({
 function MainPage() {
   const classes = useStyles();
   return (
-    <Paper className={classes.root} variant='elevation' square >
-     <SearchBar/>
-     <TagButton label='javascript' />
-     <TagButton label='C#' />
+    <Paper className={classes.root} variant='elevation' square>
+      <SearchBar />
+      <TagList />
     </Paper>
   );
 }
