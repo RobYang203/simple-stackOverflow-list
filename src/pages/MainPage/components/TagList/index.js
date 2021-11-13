@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => {
     root:{
       width: '100%',
       overflow:'auto',
-      padding: theme.spacing(1 ,0.5)
+      padding: theme.spacing(1 ,0.5),
     },
     group: {
       flexWrap: 'nowrap',
