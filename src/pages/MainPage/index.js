@@ -2,10 +2,7 @@ import { makeStyles, Paper } from '@material-ui/core';
 import React, { useState } from 'react';
 import SearchBar from './components/SearchBar';
 import TagList from './components/TagList';
-import QuestionList from './components/QuestionList';
-import { VariableSizeList } from 'react-window';
-import InfiniteLoader from 'react-window-infinite-loader';
-import QuestionItem from './components/QuestionList/components/QuestionItem';
+import QuestionItem from './components/QuestionItem';
 import ListScrollWrapper from 'components/ListScrollWrapper';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,10 +31,6 @@ function MainPage() {
   const [items, setItems] = useState(fake);
   const [isLoading, setisLoading] = useState(false)
   const loadNextPage = (startIndex) => {
-    console.log(
-      '🚀 ~ file: index.js ~ line 36 ~ loadNextPage ~ startIndex',
-      startIndex
-    );
     setItems((items) => items.concat(Array.from({ length: 20 })));
     setisLoading(true)
   };
