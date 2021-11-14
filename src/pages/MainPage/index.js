@@ -4,8 +4,11 @@ import SearchBar from './components/SearchBar';
 import TagList from './components/TagList';
 import QuestionItem from './components/QuestionItem';
 import ListScrollWrapper from 'components/ListScrollWrapper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getQuestionListAction } from 'actions/creators/questions';
+import types from 'actions/types';
+import { getTagListAction } from 'actions/creators/tags';
+import { useLocation } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,33 +24,53 @@ const getItemSize = (index) => {
 };
 
 const ItemsCreator = ({ index, style, data }) => {
-  if (index === 0) return <TagList style={style} />;
+  if (index === 0) return <TagList style={style} tags={data[0]} />;
 
-  return <QuestionItem style={style} />;
+  return <QuestionItem style={style} {...data[index]} />;
 };
 
-const fake = Array.from({ length: 20 });
+const useGetQuestions = (dispatch) => {
+  const [page, setPage] = useState(0);
+  const questionsInfo = useSelector(({ questions, setting }) => {
+    return {
+      ...questions,
+      isLoading: Boolean(setting.fetchingTypes[types.GET_QUESTION_LIST]),
+    };
+  });
+
+  const getNextQuestions = (payload) => {
+    setPage((page) => {
+      const nextPage = page + 1;
+      dispatch(
+        getQuestionListAction({
+          ...payload,
+          page: nextPage,
+        })
+      );
+      return nextPage;
+    });
+  };
+
+  return { ...questionsInfo, page, getNextQuestions };
+};
 
 function MainPage() {
   const classes = useStyles();
-  const [items, setItems] = useState(fake);
-  const [isLoading, setisLoading] = useState(false)
-  const loadNextPage = (startIndex) => {
-    setItems((items) => items.concat(Array.from({ length: 20 })));
-    setisLoading(true)
-  };
   const dispatch = useDispatch();
+  
+  const { items, hasMore, isLoading, getNextQuestions } =
+    useGetQuestions(dispatch);
 
-  useEffect(()=>{
-    dispatch(getQuestionListAction({}))
-  },[]);
+  const loadNextPage = (startIndex) => {
+    if (startIndex !== 1) getNextQuestions();
+  };
 
   return (
     <Paper className={classes.root} variant='elevation' square>
       <SearchBar />
       <ListScrollWrapper
-        items={items}
-        hasMore={true}
+        items={[null, ...items]}
+        hasMore={hasMore}
         isLoading={isLoading}
         loadNextPage={loadNextPage}
         ItemsCreator={ItemsCreator}

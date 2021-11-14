@@ -1,6 +1,6 @@
 import server from './';
 
-export const getTagsListResult = async (payload) => {
+export const getTagListResult = async (payload) => {
   const res = await server.get('/tags', {
     params: payload,
   });

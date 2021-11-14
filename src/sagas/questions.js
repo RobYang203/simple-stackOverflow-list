@@ -27,3 +27,31 @@ export function* getQuestionListSaga({ payload }) {
     yield put(ErrorGetList(error.response?.data.data.message || error.message));
   }
 }
+
+const OkInitGetList = (payload) => {
+  return {
+    type: types.INIT_GET_QUESTION_LIST_SUCCESS,
+    payload,
+  };
+};
+
+const ErrorInitGetList = (message) => {
+  return {
+    type: types.INIT_GET_QUESTION_LIST_ERROR,
+    globalMessage: {
+      status: 'error',
+      text: message,
+    },
+  };
+};
+
+export function* getInitialQuestionListSaga({ payload }) {
+  try {
+    const { data } = yield call(getQuestionListResult, payload);
+    yield put(OkInitGetList(data));
+  } catch (error) {
+    yield put(
+      ErrorInitGetList(error.response?.data.data.message || error.message)
+    );
+  }
+}

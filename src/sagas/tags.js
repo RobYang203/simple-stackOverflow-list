@@ -1,6 +1,6 @@
 import { call, put } from '@redux-saga/core/effects';
 import types from 'actions/types';
-import { getTagsListResult } from 'apis/tags';
+import { getTagListResult } from 'apis/tags';
 
 const OkGetList = (payload) => {
   return {
@@ -20,9 +20,10 @@ const ErrorGetList = (message) => {
 };
 
 export function* getTagListSaga({ payload }) {
+  console.log("🚀 ~ file: tags.js ~ line 23 ~ function*getTagListSaga ~ payload", payload)
   try {
-    const { data } = yield call(getTagsListResult, payload);
-    yield put(OkGetList(data));
+    const { data } = yield call(getTagListResult, payload);
+    yield put(OkGetList(data.items));
   } catch (error) {
     yield put(ErrorGetList(error.response?.data.data.message || error.message));
   }

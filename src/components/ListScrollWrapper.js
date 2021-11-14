@@ -10,14 +10,15 @@ function ListScrollWrapper({
   getItemSize,
   loadNextPage,
   ItemsCreator,
-  hasMore
+  hasMore,
 }) {
   const isItemLoaded = (index) => index < items.length;
   const loadMore = isLoading ? () => {} : loadNextPage;
+  const itemCount = hasMore ? items.length + 1 : items.length;
   return (
     <InfiniteLoader
       isItemLoaded={isItemLoaded}
-      itemCount={hasMore? items.length + 1 : items.length }
+      itemCount={itemCount}
       loadMoreItems={loadMore}>
       {({ onItemsRendered, ref }) => {
         return (
@@ -25,7 +26,7 @@ function ListScrollWrapper({
             ref={ref}
             height={height}
             itemData={items}
-            itemCount={items.length}
+            itemCount={itemCount}
             itemSize={getItemSize}
             onItemsRendered={onItemsRendered}>
             {ItemsCreator}

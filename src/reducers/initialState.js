@@ -9,7 +9,7 @@ export const messageState = {
 };
 
 export const questionsState = {
-  hasMore: false,
+  hasMore: true,
   items: []
 };
 
