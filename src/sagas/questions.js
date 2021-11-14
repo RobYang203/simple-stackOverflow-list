@@ -22,7 +22,7 @@ const ErrorGetList = (message) => {
 export function* getQuestionListSaga({ payload }) {
   try {
     const res = yield call(getQuestionListResult, payload);
-    put(OkGetList(res));
+    yield put(OkGetList(res));
   } catch (error) {
     put(ErrorGetList(error.response.data.data.message))
   }

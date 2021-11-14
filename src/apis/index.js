@@ -5,5 +5,20 @@ const server = axios.create({
   'Content-Type': 'application/json',
 });
 
+server.interceptors.request.use((config) => {
+
+  if (config.method === 'get') {
+    console.log(
+      '🚀 ~ file: index.js ~ line 9 ~ server.interceptors.request.use ~ config',
+      config
+    );
+    config.params = {
+      ...config.params,
+      site: 'stackoverflow',
+    };
+  }
+  return config;
+});
+
 export const getServer = () => server;
 export default server;

@@ -1,9 +1,11 @@
 import { makeStyles, Paper } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchBar from './components/SearchBar';
 import TagList from './components/TagList';
 import QuestionItem from './components/QuestionItem';
 import ListScrollWrapper from 'components/ListScrollWrapper';
+import { useDispatch } from 'react-redux';
+import { getQuestionListAction } from 'actions/creators/questions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +36,11 @@ function MainPage() {
     setItems((items) => items.concat(Array.from({ length: 20 })));
     setisLoading(true)
   };
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(getQuestionListAction({}))
+  },[]);
 
   return (
     <Paper className={classes.root} variant='elevation' square>
