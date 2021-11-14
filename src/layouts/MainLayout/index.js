@@ -1,16 +1,12 @@
-import React from "react";
-import { Container } from "@material-ui/core";
-import TopBar from "./components/TopBar";
+import React from 'react';
+import { Container } from '@material-ui/core';
 
-function MainLayout({children}) {
+function MainLayout({ children }) {
   return (
-    <Container maxWidth={false} >
-      <TopBar />
+    <Container  maxWidth={'md'}>
       {children}
     </Container>
   );
 }
-
-
 
 export default MainLayout;
