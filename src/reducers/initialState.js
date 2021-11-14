@@ -8,7 +8,11 @@ export const messageState = {
   text: '',
 };
 
-export const stackflowState = {
-  questions: [],
-  tags: [],
+export const questionsState = {
+  hasMore: false,
+  items: []
+};
+
+export const tagsState = {
+  items: []
 };
