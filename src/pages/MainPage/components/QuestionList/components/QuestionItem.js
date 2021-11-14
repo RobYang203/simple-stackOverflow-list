@@ -44,12 +44,12 @@ function QuestionItem(props) {
   const classes = useStyles();
 
   return (
-    <ListItem divider alignItems='center' disableGutters>
+    <ListItem className={classes.root} style={props.style} divider alignItems='center' disableGutters>
       <Grid container direction='column'>
-        <ListItem>
+        <ListItem component='div'>
           <Typography variant='h6'>Question 1</Typography>
         </ListItem>
-        <ListItem className={classes.subItem}>
+        <ListItem className={classes.subItem} component='div'>
           <ListItemText
             primary={
               <Typography color='textSecondary' variant='h6'>
@@ -76,12 +76,14 @@ function QuestionItem(props) {
           />
         </ListItem>
       </Grid>
-      <ListItemAvatar className={classes.avatar}>
-        <Avatar className={classes.avatarImg} />
-        <Typography className={classes.avatarName} variant='h7'>
-          Name
-        </Typography>
-      </ListItemAvatar>
+      <Grid className={classes.avatar} container direction='column' alignItems='center' >
+        <Grid item>
+          <Avatar className={classes.avatarImg} />{' '}
+        </Grid>
+        <Grid item>
+          <Typography className={classes.avatarName}>Name</Typography>
+        </Grid>
+      </Grid>
     </ListItem>
   );
 }

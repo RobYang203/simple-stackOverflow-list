@@ -40,16 +40,16 @@ function QuestionList(props) {
 
   return (
     <List>
-      <QuestionItem />
-      <QuestionItem />
-      <QuestionItem />
-      <QuestionItem />
-      <QuestionItem />
-      <QuestionItem />
-      <QuestionItem />
-      <QuestionItem />
-      <QuestionItem />
-      <QuestionItem />
+      <QuestionItem style={props.style} />
+      <QuestionItem style={props.style}/>
+      <QuestionItem style={props.style}/>
+      <QuestionItem style={props.style}/>
+      <QuestionItem style={props.style}/>
+      <QuestionItem style={props.style}/>
+      <QuestionItem style={props.style}/>
+      <QuestionItem style={props.style}/>
+      <QuestionItem style={props.style}/>
+      <QuestionItem style={props.style}/>
     </List>
   );
 }

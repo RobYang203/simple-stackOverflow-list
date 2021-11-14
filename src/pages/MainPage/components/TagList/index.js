@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => {
 function TagList(props) {
   const classes = useStyles();
   return (
-    <div className={classes.root} >
+    <div className={classes.root} style={props.style} >
       <Typography variant='h4'>Trending</Typography>
       <FormGroup className={classes.group} row>
         <TagButton label='javascript' />
