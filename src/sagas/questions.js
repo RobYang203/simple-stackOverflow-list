@@ -14,16 +14,16 @@ const ErrorGetList = (message) => {
     type: types.GET_QUESTION_LIST_ERROR,
     globalMessage: {
       status: 'error',
-      message,
+      text: message,
     },
   };
 };
 
 export function* getQuestionListSaga({ payload }) {
   try {
-    const res = yield call(getQuestionListResult, payload);
-    yield put(OkGetList(res));
+    const { data } = yield call(getQuestionListResult, payload);
+    yield put(OkGetList(data));
   } catch (error) {
-    put(ErrorGetList(error.response.data.data.message))
+    yield put(ErrorGetList(error.response?.data.data.message || error.message));
   }
 }

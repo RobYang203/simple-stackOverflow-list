@@ -14,16 +14,16 @@ const ErrorGetList = (message) => {
     type: types.GET_TAG_LIST_ERROR,
     globalMessage: {
       status: 'error',
-      message,
+      text: message,
     },
   };
 };
 
 export function* getTagListSaga({ payload }) {
   try {
-    const res = yield call(getTagsListResult, payload);
-    put(OkGetList(res));
+    const { data } = yield call(getTagsListResult, payload);
+    yield put(OkGetList(data));
   } catch (error) {
-    put(ErrorGetList(error.response.data.data.message))
+    yield put(ErrorGetList(error.response?.data.data.message || error.message));
   }
 }

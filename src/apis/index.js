@@ -8,10 +8,6 @@ const server = axios.create({
 server.interceptors.request.use((config) => {
 
   if (config.method === 'get') {
-    console.log(
-      '🚀 ~ file: index.js ~ line 9 ~ server.interceptors.request.use ~ config',
-      config
-    );
     config.params = {
       ...config.params,
       site: 'stackoverflow',
