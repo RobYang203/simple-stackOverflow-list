@@ -40,7 +40,7 @@ function MainPage() {
     });
   }, []);
   
-  useTrackTags(onSelectedTagListChange);
+  const tags = useTrackTags(onSelectedTagListChange);
 
   const loadNextPage = (startIndex) => {
     if (startIndex !== 1) {
@@ -59,7 +59,7 @@ function MainPage() {
       <SearchBar />
       <ListScrollWrapper
         {...other}
-        items={[{ selectedTags, onSelectedTagListChange }, ...items]}
+        items={[{ tags , selectedTags , onSelectedTagListChange }, ...items]}
         loadNextPage={loadNextPage}
         ItemsCreator={ItemsCreator}
         getItemSize={getItemSize}
