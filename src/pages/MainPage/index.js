@@ -1,16 +1,9 @@
 import { makeStyles, Paper } from '@material-ui/core';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import SearchBar from './components/SearchBar';
-import TagList from './components/TagList';
-import QuestionItem from './components/QuestionItem';
 import ListScrollWrapper from 'components/ListScrollWrapper';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  getQuestionListAction,
-  initialGetQuestionListAction,
-} from 'actions/creators/questions';
-import types from 'actions/types';
-import { getTagListAction } from 'actions/creators/tags';
+import { useGetQuestions, useTrackTags } from 'hooks';
+import ItemsCreator from './components/ItemsCreator';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,58 +16,6 @@ const useStyles = makeStyles((theme) => ({
 
 const getItemSize = (index) => {
   return index > 0 ? 160 : 121;
-};
-
-const ItemsCreator = ({ index, style, data }) => {
-  if (index === 0) return <TagList style={style} {...data[0]} />;
-
-  return <QuestionItem style={style} {...data[index]} />;
-};
-
-const useTrackTags = (callback) => {
-  const tags = useSelector(({ tags }) => tags);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (tags.items.length !== 0) {
-      callback(tags.items[0].name);
-    } else {
-      dispatch(getTagListAction({}));
-    }
-  }, [tags]);
-};
-
-const useGetQuestions = () => {
-  const dispatch = useDispatch();
-  const questions = useSelector(({ questions, setting }) => {
-    return {
-      ...questions,
-      isLoading: Boolean(setting.fetchingTypes[types.GET_QUESTION_LIST]),
-    };
-  });
-
-  const initialQuestions = useCallback((payload) => {
-    dispatch(
-      initialGetQuestionListAction({
-        ...payload,
-        page: 1,
-      })
-    );
-  }, []);
-
-  const getNextQuestions = useCallback((payload) => {
-    dispatch(
-      getQuestionListAction({
-        ...payload,
-      })
-    );
-  }, []);
-
-  return {
-    ...questions,
-    initialQuestions,
-    getNextQuestions,
-  };
 };
 
 const getTagged = (tags) => {

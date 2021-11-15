@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => {
       textAlign: 'center',
       alignSelf: 'flex-end',
       marginRight: 5,
-      width: 75,
+      width: 110,
     },
     avatarImg: {
       [theme.breakpoints.up('md')]: {
@@ -35,7 +35,10 @@ const useStyles = makeStyles((theme) => {
       marginBottom: 5,
     },
     avatarName: {
-      wordBreak: 'break-all',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      width:100
     },
   };
 });
@@ -49,17 +52,26 @@ const getScoreHighlight = (score) => {
   return score < 0 ? 'text' : '';
 };
 
+const transformTitle = (text) => {
+  return { __html: text };
+};
+
 function QuestionItem({
   title,
   score,
   view_count,
   answer_count,
-  display_name,
-  profile_image,
   is_answered,
+  owner = {},
+  link,
   style,
 }) {
   const classes = useStyles();
+  const { display_name, profile_image } = owner;
+
+  const onItemClick = () => {
+    window.open(link);
+  };
 
   return (
     <ListItem
@@ -67,12 +79,17 @@ function QuestionItem({
       style={style}
       divider
       alignItems='center'
-      disableGutters>
+      disableGutters
+      button
+      onClick={onItemClick}>
       <Grid container direction='column'>
         <ListItem component='div'>
-          <Typography variant='h6'>{title}</Typography>
+          <Typography
+            variant='h6'
+            dangerouslySetInnerHTML={transformTitle(title)}
+          />
         </ListItem>
-        <ListItem className={classes.subItem} component='div'>
+        <ListItem className={classes.subItem} component='div' disableGutters>
           <ListItemText
             primary={
               <Typography color='textSecondary' variant='h6'>
@@ -105,9 +122,7 @@ function QuestionItem({
                 Viewed
               </Typography>
             }
-            secondary={
-              <FieldContent value={view_count} />
-            }
+            secondary={<FieldContent value={view_count} />}
           />
         </ListItem>
       </Grid>
@@ -140,8 +155,7 @@ QuestionItem.propTypes = {
   title: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   view_count: PropTypes.number.isRequired,
-  answer_count: PropTypes.number.isRequired,
-  display_name: PropTypes.string.isRequired,
+  owner: PropTypes.object.isRequired,
   profile_image: PropTypes.string.isRequired,
   is_answered: PropTypes.bool.isRequired,
 };

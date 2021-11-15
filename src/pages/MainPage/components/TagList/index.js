@@ -1,10 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
 import TagButton from './TagButton';
 import { FormGroup, makeStyles, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { initialGetQuestionListAction } from 'actions/creators/questions';
-import { getTagListAction } from 'actions/creators/tags';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -58,12 +55,6 @@ function TagList({ selectedTags, onSelectedTagListChange, style }) {
 
     onSelectedTagListChange(nextSelectedTags);
   };
-
-  useEffect(() => {
-    if (tags.length === 0) {
-      dispatch(getTagListAction({}));
-    }
-  }, [tags]);
 
   return (
     <div className={classes.root} style={style}>

@@ -5,11 +5,11 @@ import classNames from 'classnames';
 const useStyles = makeStyles((theme) => {
   return {
     root: {
-      [theme.breakpoints.up('md')]:{
-        padding: theme.spacing(0 , 4)
+      [theme.breakpoints.up('sm')]: {
+        padding: theme.spacing(0, 1),
       },
-      [theme.breakpoints.down('md')]:{
-        padding: theme.spacing(0 , 1)
+      [theme.breakpoints.down('md')]: {
+        padding: theme.spacing(0, 4),
       },
     },
     text: {
