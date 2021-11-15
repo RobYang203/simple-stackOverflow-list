@@ -11,3 +11,7 @@ enter command `yarn install`
 ## open local server 
 
 > yarn start
+
+## bundle 
+
+> yarn build
