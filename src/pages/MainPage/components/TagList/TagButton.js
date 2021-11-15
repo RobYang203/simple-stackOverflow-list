@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => {
       borderStyle: 'solid',
       borderRadius: 10,
       userSelect: 'none',
+      whiteSpace: 'nowrap',
     },
     label: {
       padding : 10
