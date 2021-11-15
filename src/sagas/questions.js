@@ -51,7 +51,7 @@ export function* getInitialQuestionListSaga({ payload }) {
     yield put(OkInitGetList(data));
   } catch (error) {
     yield put(
-      ErrorInitGetList(error.response?.data.data.message || error.message)
+      ErrorInitGetList(error.response?.data?.data?.message || error.message)
     );
   }
 }

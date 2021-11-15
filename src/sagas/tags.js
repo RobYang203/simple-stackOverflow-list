@@ -24,6 +24,6 @@ export function* getTagListSaga({ payload }) {
     const { data } = yield call(getTagListResult, payload);
     yield put(OkGetList(data.items));
   } catch (error) {
-    yield put(ErrorGetList(error.response?.data.data.message || error.message));
+    yield put(ErrorGetList(error?.response?.data?.data?.message ?? error.message));
   }
 }
