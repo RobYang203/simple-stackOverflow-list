@@ -16,6 +16,8 @@ export const useTrackTags = (callback) => {
       dispatch(getTagListAction({}));
     }
   }, [tags , callback]);
+
+  return tags;
 };
 
 export const useGetQuestions = () => {

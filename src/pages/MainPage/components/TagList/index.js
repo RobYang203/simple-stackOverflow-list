@@ -28,11 +28,8 @@ const removeTag = (tags, name) => {
   return tags.filter((tag) => tag !== name);
 };
 
-function TagList({ selectedTags, onSelectedTagListChange, style }) {
+function TagList({ tags , selectedTags, onSelectedTagListChange, style }) {
   const classes = useStyles();
-  const { items: tags } = useSelector(({ tags }) => {
-    return tags;
-  });
 
   const isTagInclude = useCallback(
     (name) => {
@@ -58,7 +55,7 @@ function TagList({ selectedTags, onSelectedTagListChange, style }) {
     <div className={classes.root} style={style}>
       <Typography variant='h4'>Trending</Typography>
       <FormGroup className={classes.group} onChange={onTagChange} row>
-        {tags.map(({ name }) => {
+        {tags.items.map(({ name }) => {
           return (
             <TagButton
               key={`tag-${name}`}
