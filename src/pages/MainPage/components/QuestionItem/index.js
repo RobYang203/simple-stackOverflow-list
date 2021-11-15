@@ -13,9 +13,12 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles((theme) => {
   return {
     subItem: {
-      [theme.breakpoints.up('md')]: {
-        textAlign: 'center',
-      },
+      textAlign: 'center',
+    },
+    title: {
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
     },
     avatar: {
       textAlign: 'center',
@@ -38,7 +41,7 @@ const useStyles = makeStyles((theme) => {
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
-      width:100
+      width: 100,
     },
   };
 });
@@ -83,7 +86,7 @@ function QuestionItem({
       button
       onClick={onItemClick}>
       <Grid container direction='column'>
-        <ListItem component='div'>
+        <ListItem className={classes.title} component='div'>
           <Typography
             variant='h6'
             dangerouslySetInnerHTML={transformTitle(title)}
@@ -124,19 +127,21 @@ function QuestionItem({
             }
             secondary={<FieldContent value={view_count} />}
           />
+          <Grid
+            className={classes.avatar}
+            container
+            direction='column'
+            alignItems='center'>
+            <Grid item>
+              <Avatar className={classes.avatarImg} src={profile_image} />
+            </Grid>
+            <Grid item>
+              <Typography className={classes.avatarName}>
+                {display_name}
+              </Typography>
+            </Grid>
+          </Grid>
         </ListItem>
-      </Grid>
-      <Grid
-        className={classes.avatar}
-        container
-        direction='column'
-        alignItems='center'>
-        <Grid item>
-          <Avatar className={classes.avatarImg} src={profile_image} />
-        </Grid>
-        <Grid item>
-          <Typography className={classes.avatarName}>{display_name}</Typography>
-        </Grid>
       </Grid>
     </ListItem>
   );
