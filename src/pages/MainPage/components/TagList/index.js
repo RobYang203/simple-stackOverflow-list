@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import TagButton from './TagButton';
 import { FormGroup, makeStyles, Typography } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -33,8 +33,6 @@ function TagList({ selectedTags, onSelectedTagListChange, style }) {
   const { items: tags } = useSelector(({ tags }) => {
     return tags;
   });
-
-  const dispatch = useDispatch();
 
   const isTagInclude = useCallback(
     (name) => {

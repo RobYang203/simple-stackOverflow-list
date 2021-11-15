@@ -48,7 +48,11 @@ function SearchBar() {
     ),
     []
   );
-  
+
+  const onSearchClick = () => {
+    dispatchAction(searchValue);
+  };
+
   const onSearchChange = (e) => {
     const nextValue = e.target.value;
     setSearchValue(() => {
@@ -68,7 +72,9 @@ function SearchBar() {
           margin='dense'
           onChange={onSearchChange}
         />
-        <Button className={classes.searchButton}>Search</Button>
+        <Button className={classes.searchButton} onClick={onSearchClick}>
+          Search
+        </Button>
       </Toolbar>
     </AppBar>
   );

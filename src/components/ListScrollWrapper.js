@@ -37,6 +37,14 @@ function ListScrollWrapper({
   );
 }
 
-ListScrollWrapper.propTypes = {};
+ListScrollWrapper.propTypes = {
+  items: PropTypes.array.isRequired,
+  height:PropTypes.number.isRequired ,
+  isLoading:PropTypes.bool.isRequired ,
+  getItemSize:PropTypes.func.isRequired ,
+  loadNextPage:PropTypes.func.isRequired ,
+  ItemsCreator:PropTypes.func.isRequired ,
+  hasMore:PropTypes.bool.isRequired ,
+};
 
 export default ListScrollWrapper;
