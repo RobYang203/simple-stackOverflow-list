@@ -1,14 +1,16 @@
 import { makeStyles, Paper } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import SearchBar from './components/SearchBar';
 import TagList from './components/TagList';
 import QuestionItem from './components/QuestionItem';
 import ListScrollWrapper from 'components/ListScrollWrapper';
 import { useDispatch, useSelector } from 'react-redux';
-import { getQuestionListAction } from 'actions/creators/questions';
+import {
+  getQuestionListAction,
+  initialGetQuestionListAction,
+} from 'actions/creators/questions';
 import types from 'actions/types';
 import { getTagListAction } from 'actions/creators/tags';
-import { useLocation } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,54 +26,112 @@ const getItemSize = (index) => {
 };
 
 const ItemsCreator = ({ index, style, data }) => {
-  if (index === 0) return <TagList style={style} tags={data[0]} />;
+  if (index === 0) return <TagList style={style} {...data[0]} />;
 
   return <QuestionItem style={style} {...data[index]} />;
 };
 
-const useGetQuestions = (dispatch) => {
-  const [page, setPage] = useState(0);
-  const questionsInfo = useSelector(({ questions, setting }) => {
+const useTrackTags = (callback) => {
+  const tags = useSelector(({ tags }) => tags);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (tags.items.length !== 0) {
+      callback(tags.items[0].name);
+    } else {
+      dispatch(getTagListAction({}));
+    }
+  }, [tags]);
+};
+
+const useGetQuestions = () => {
+  const dispatch = useDispatch();
+  const questions = useSelector(({ questions, setting }) => {
     return {
       ...questions,
       isLoading: Boolean(setting.fetchingTypes[types.GET_QUESTION_LIST]),
     };
   });
 
-  const getNextQuestions = (payload) => {
-    setPage((page) => {
-      const nextPage = page + 1;
-      dispatch(
-        getQuestionListAction({
-          ...payload,
-          page: nextPage,
-        })
-      );
-      return nextPage;
-    });
-  };
+  const initialQuestions = useCallback((payload) => {
+    dispatch(
+      initialGetQuestionListAction({
+        ...payload,
+        page: 1,
+      })
+    );
+  }, []);
 
-  return { ...questionsInfo, page, getNextQuestions };
+  const getNextQuestions = useCallback((payload) => {
+    dispatch(
+      getQuestionListAction({
+        ...payload,
+      })
+    );
+  }, []);
+
+  return {
+    ...questions,
+    initialQuestions,
+    getNextQuestions,
+  };
+};
+
+const getTagged = (tags) => {
+  return tags.join(';');
 };
 
 function MainPage() {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  
-  const { items, hasMore, isLoading, getNextQuestions } =
-    useGetQuestions(dispatch);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [page, setPage] = useState(0);
+
+  const { items, getNextQuestions, initialQuestions, ...other } =
+    useGetQuestions();
+
+  useTrackTags((tag) => {
+    setSelectedTags([tag]);
+    setPage(() => {
+      initialQuestions({
+        tagged: tag,
+        page: 1,
+      });
+
+      return 1;
+    });
+  });
 
   const loadNextPage = (startIndex) => {
-    if (startIndex !== 1) getNextQuestions();
+    if (startIndex !== 1)
+      setPage((page) => {
+        const nextPage = page + 1;
+        getNextQuestions({
+          tagged: getTagged(selectedTags),
+          page: nextPage,
+        });
+
+        return nextPage;
+      });
+  };
+
+  const onSelectedTagListChange = (tags) => {
+    setSelectedTags(tags);
+    setPage(() => {
+      initialQuestions({
+        tagged: getTagged(tags),
+        page: 1,
+      });
+
+      return 1;
+    });
   };
 
   return (
     <Paper className={classes.root} variant='elevation' square>
       <SearchBar />
       <ListScrollWrapper
-        items={[null, ...items]}
-        hasMore={hasMore}
-        isLoading={isLoading}
+        {...other}
+        items={[{ selectedTags, onSelectedTagListChange }, ...items]}
         loadNextPage={loadNextPage}
         ItemsCreator={ItemsCreator}
         getItemSize={getItemSize}
