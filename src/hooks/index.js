@@ -11,7 +11,7 @@ export const useTrackTags = (callback) => {
 
   useEffect(() => {
     if (tags.items.length !== 0) {
-      callback(tags.items[0].name);
+      callback([tags.items[0].name]);
     } else {
       dispatch(getTagListAction({}));
     }

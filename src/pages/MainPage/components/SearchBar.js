@@ -43,7 +43,7 @@ function SearchBar() {
       (searchValue) => {
         dispatch(getTagListAction({ inname: searchValue }));
       },
-      100000,
+      5000,
       { trailing: true, leading: true }
     ),
     []

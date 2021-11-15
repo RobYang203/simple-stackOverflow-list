@@ -30,18 +30,17 @@ function MainPage() {
   const { items, getNextQuestions, initialQuestions, ...other } =
     useGetQuestions();
 
-  useTrackTags(
-    useCallback((tag) => {
-      setSelectedTags([tag]);
-      setPage(1);
-      
-      initialQuestions({
-        tagged: tag,
-        page: 1,
-      });
+  const onSelectedTagListChange = useCallback((tags) => {
+    setSelectedTags(tags);
+    setPage(1);
 
-    }, [])
-  );
+    initialQuestions({
+      tagged: getTagged(selectedTags),
+      page: 1,
+    });
+  }, []);
+  
+  useTrackTags(onSelectedTagListChange);
 
   const loadNextPage = (startIndex) => {
     if (startIndex !== 1) {
@@ -52,21 +51,7 @@ function MainPage() {
         tagged: getTagged(selectedTags),
         page: nextPage,
       });
-
-
     }
-  };
-
-  const onSelectedTagListChange = (tags) => {
-    setSelectedTags(tags);
-    setPage(1);
-
-    initialQuestions({
-      tagged: getTagged(tags),
-      page: 1,
-    });
-
-
   };
 
   return (
