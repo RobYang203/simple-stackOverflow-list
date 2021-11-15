@@ -6,6 +6,7 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer from 'reducers';
 import rootSaga from 'sagas';
+import { globalMessageMiddleware } from 'middleware/globalMessageMiddleware';
 
 function configureStore() {
   const sagaMiddleware = createSagaMiddleware({});
@@ -17,6 +18,7 @@ function configureStore() {
     startFetchingMiddleware,
     sagaMiddleware,
     stopFetchingMiddleware,
+    globalMessageMiddleware
   ];
 
   const preventStore = createStore(
