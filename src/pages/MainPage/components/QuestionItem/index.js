@@ -152,17 +152,17 @@ QuestionItem.defaultProps = {
   score: 0,
   view_count: 0,
   answer_count: 0,
-  display_name: '---',
-  profile_image: null,
+  owner: {
+    display_name: '---',
+    profile_image: null,
+  },
+  is_answered: false,
 };
 
 QuestionItem.propTypes = {
   title: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   view_count: PropTypes.number.isRequired,
-  owner: PropTypes.object.isRequired,
-  profile_image: PropTypes.string.isRequired,
-  is_answered: PropTypes.bool.isRequired,
 };
 
 export default QuestionItem;

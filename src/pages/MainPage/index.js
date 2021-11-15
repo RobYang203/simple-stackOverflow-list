@@ -1,5 +1,5 @@
 import { makeStyles, Paper } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import SearchBar from './components/SearchBar';
 import ListScrollWrapper from 'components/ListScrollWrapper';
 import { useGetQuestions, useTrackTags } from 'hooks';
@@ -30,41 +30,43 @@ function MainPage() {
   const { items, getNextQuestions, initialQuestions, ...other } =
     useGetQuestions();
 
-  useTrackTags((tag) => {
-    setSelectedTags([tag]);
-    setPage(() => {
+  useTrackTags(
+    useCallback((tag) => {
+      setSelectedTags([tag]);
+      setPage(1);
+      
       initialQuestions({
         tagged: tag,
         page: 1,
       });
 
-      return 1;
-    });
-  });
+    }, [])
+  );
 
   const loadNextPage = (startIndex) => {
-    if (startIndex !== 1)
-      setPage((page) => {
-        const nextPage = page + 1;
-        getNextQuestions({
-          tagged: getTagged(selectedTags),
-          page: nextPage,
-        });
+    if (startIndex !== 1) {
+      const nextPage = page + 1;
+      setPage(nextPage);
 
-        return nextPage;
+      getNextQuestions({
+        tagged: getTagged(selectedTags),
+        page: nextPage,
       });
+
+
+    }
   };
 
   const onSelectedTagListChange = (tags) => {
     setSelectedTags(tags);
-    setPage(() => {
-      initialQuestions({
-        tagged: getTagged(tags),
-        page: 1,
-      });
+    setPage(1);
 
-      return 1;
+    initialQuestions({
+      tagged: getTagged(tags),
+      page: 1,
     });
+
+
   };
 
   return (

@@ -20,7 +20,6 @@ const ErrorGetList = (message) => {
 };
 
 export function* getTagListSaga({ payload }) {
-  console.log("🚀 ~ file: tags.js ~ line 23 ~ function*getTagListSaga ~ payload", payload)
   try {
     const { data } = yield call(getTagListResult, payload);
     yield put(OkGetList(data.items));
